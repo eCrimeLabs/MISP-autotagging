@@ -2,3 +2,5 @@ pymisp
 datetime
 json
 pprint
+argparse
+collections

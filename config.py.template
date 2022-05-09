@@ -1,22 +1,17 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-misp_url='https://misp-url'
-misp_key='MIS API Key'
+misp_url='https://<MISP-URL>'
+misp_key='<MISP API KEY>'
 misp_verifycert=True
-
-search_time = '2d' # This will return all events with edited in the past 2 days from the organisation.
-
-search_template = {
-    "returnFormat": "json",
-    "publish_timestamp": "5d",
-    "deleted": "0",
-    "includeEventUuid": "1",
-    "includeEventTags": "1",
-    "event_timestamp": "1"
-}
 
 dict_orgtags = {
     '00000000-0000-0000-0000-000000000000': ['ecrimelabs:tag=1', 'ecrimelabs:tag=2'],
     '11111111-1111-1111-1111-111111111111': ['ecrimelabs:tag=3']
+}
+
+# Do not modify below unless you are sure what happens :)
+search_template = {
+    "returnFormat": "json",
+    "deleted": "0",
+    "includeEventUuid": "1",
+    "includeEventTags": "1",
+    "event_timestamp": "1"
 }
