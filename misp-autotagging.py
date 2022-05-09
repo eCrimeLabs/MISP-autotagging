@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pymisp import ExpandedPyMISP
-from pymisp import PyMISP
-from datetime import tzinfo, timedelta, datetime, timezone
 import argparse
 import re
 import json
-import pprint
 import sys
+from pymisp import ExpandedPyMISP
+from pymisp import PyMISP
+from datetime import tzinfo, timedelta, datetime, timezone
 from collections import defaultdict
 from config import misp_url, misp_key, misp_verifycert, search_template, dict_orgtags
 
