@@ -1,5 +1,3 @@
 pymisp
 datetime
-json
 argparse
-collections

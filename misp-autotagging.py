@@ -10,6 +10,8 @@ from pymisp import PyMISP
 from datetime import tzinfo, timedelta, datetime, timezone
 from collections import defaultdict
 from config import misp_url, misp_key, misp_verifycert, search_template, dict_orgtags
+import logging
+logging.getLogger("imported_module").setLevel(logging.CRITICAL)
 
 def timestamp():
     return(datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z - "))
@@ -56,9 +58,9 @@ def misp_add_tags(pymisp, events):
         for tag in events[event]:
             add_tag = pymisp.tag(event, tag, local=True)
             if(add_tag['success'] and add_tag['saved']):
-                print (timestamp() + "Successfully added local tag: " + tag + " to Event UUID: " + event)
+                print ("   - " + timestamp() + "Successfully added local tag: " + tag + " to Event UUID: " + event)
             else:
-                print (timestamp() + "FAILED added local tag: " + tag + " to Event UUID: " + event)
+                print ("   - " + timestamp() + "FAILED added local tag: " + tag + " to Event UUID: " + event)
 
 
 def misp_remove_tags(pymisp, events):
@@ -66,9 +68,9 @@ def misp_remove_tags(pymisp, events):
         for tag in events[event]:
             add_tag = pymisp.untag(event, tag)
             if(add_tag['success'] and add_tag['saved']):
-                print (timestamp() + "Successfully removed local tag: " + tag + " from Event UUID: " + event)
+                print ("   - " + timestamp() + "Successfully removed local tag: " + tag + " from Event UUID: " + event)
             else:
-                print (timestamp() + "FAILED removed local tag: " + tag + " from Event UUID: " + event)
+                print ("   - " + timestamp() + "FAILED removed local tag: " + tag + " from Event UUID: " + event)
 
 
 def perform_task(task, time):
@@ -89,6 +91,7 @@ def perform_task(task, time):
             misp_remove_tags(pymisp, events_for_update)
 
 if __name__ == '__main__':
+    print ("eCrimeLabs MISP autotagging tool")
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--add", action='store_true', help="Add local tags to Event(s)")
     parser.add_argument("-r", "--remove", action='store_true', help="Remove local tags to Event(s)")
@@ -96,14 +99,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if not re.fullmatch("^[0-9]{1,4}$", args.days, re.MULTILINE):
-        print ('Number of days has to be between "1" and "9999"')
+        print (' - Number of days has to be between "1" and "9999"')
         parser.print_help()
         sys.exit(2)
     if (args.add):
-        print ("Add local tags to Event(s)")
+        print (" + Add local tags to Event(s)")
         perform_task(True, args.days + 'd')
     elif (args.remove):
-        print ("Remove local tags to Event(s)")
+        print (" + Remove local tags to Event(s)")
         perform_task(False, args.days + 'd')
     else:
         parser.print_help()
